@@ -1006,9 +1006,9 @@ app.post('/api/vm/connect', async (req, res) => {
       result.pm2 = {
         available: true,
         count: processes.length,
-        online: processes.filter(p => p.pm2_env?.status === 'online').length,
-        errored: processes.filter(p => p.pm2_env?.status === 'errored').length,
-        stopped: processes.filter(p => p.pm2_env?.status === 'stopped').length,
+        online: processes.filter(p => p?.pm2_env?.status === 'online' ? true : false).length,
+        errored: processes.filter(p => p?.pm2_env?.status === 'errored' ? true : false).length,
+        stopped: processes.filter(p => p?.pm2_env?.status === 'stopped' ? true : false).length,
         processes: processes.map(p => ({
           id: p.pm_id,
           name: p.name,
