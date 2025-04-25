@@ -357,8 +357,8 @@ app.get('/api/system', async(req, res) => {
       uptime: os.uptime(),
       cpus: {
         count: cpus.length,
-        model: cpus[0]?.model || 'Unknown',
-        speed: cpus[0]?.speed || 0
+        model: cpus.length> 0 ? cpus[0].model : 'Unknown',
+        speed: cpus.length> 0 ? cpus[0].speed : 0
       },
       memory: {
         total: formatBytesSmart(totalMemory),
