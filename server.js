@@ -1012,9 +1012,9 @@ app.post('/api/vm/connect', async (req, res) => {
         processes: processes.map(p => ({
           id: p.pm_id,
           name: p.name,
-          status: p.pm2_env?.status || 'unknown',
-          memory: p.monit?.memory,
-          cpu: p.monit?.cpu
+          status: p.pm2_env.status ? p.pm2_env.status : 'unknown',
+          memory: p.monit.memory,
+          cpu: p.monit.cpu
         }))
       };
     } catch (pm2Error) {
