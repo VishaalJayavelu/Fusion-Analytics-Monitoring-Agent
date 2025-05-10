@@ -437,8 +437,8 @@ app.get('/api/system', cacheMiddleware(CACHE_TTL_STATUS), async (req, res) => {
       uptime: os.uptime(),
       cpus: {
         count: cpus.length,
-        model: cpus[0]?.model || 'Unknown',
-        speed: cpus[0]?.speed || 0
+        model: cpus.length> 0 ? cpus[0].model : 'Unknown',
+        speed: cpus.length> 0 ? cpus[0].speed : 0
       },
       memory: {
         total: formatBytesSmart(totalMemory),
@@ -1002,15 +1002,15 @@ app.post('/api/vm/connect', cacheMiddleware(CACHE_TTL_STATUS), async (req, res) 
       result.pm2 = {
         available: true,
         count: processes.length,
-        online: processes.filter(p => p.pm2_env?.status === 'online').length,
-        errored: processes.filter(p => p.pm2_env?.status === 'errored').length,
-        stopped: processes.filter(p => p.pm2_env?.status === 'stopped').length,
+        online: processes.filter(p => p.pm2_env.status === 'online' ? true : false).length,
+        errored: processes.filter(p => p.pm2_env.status === 'errored' ? true : false).length,
+        stopped: processes.filter(p => p.pm2_env.status === 'stopped' ? true : false).length,
         processes: processes.map(p => ({
           id: p.pm_id,
           name: p.name,
-          status: p.pm2_env?.status || 'unknown',
-          memory: p.monit?.memory,
-          cpu: p.monit?.cpu
+          status: p.pm2_env.status ? p.pm2_env.status : 'unknown',
+          memory: p.monit.memory,
+          cpu: p.monit.cpu
         }))
       };
     } catch (pm2Error) {
